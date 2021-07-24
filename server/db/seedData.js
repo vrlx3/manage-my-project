@@ -1,4 +1,5 @@
 const client = require("./client");
+const { newActivity } = require("./");
 
 async function dropTables() {
   try {
@@ -24,7 +25,7 @@ async function createTables() {
   }
 }
 
-async function createInitialActivity() {
+async function createInitialActivity2() {
   console.log("starting to create activity");
   try {
     client.query(`
@@ -37,12 +38,34 @@ async function createInitialActivity() {
   }
 }
 
+async function createInitialActivity() {
+  console.log("attempting activity creation via object");
+
+  try {
+    const actToCreate = [
+      { activity: "activity4" },
+      { activity: "activity5" },
+      { activity: "activity6" },
+    ];
+
+    const acts = await Promise.all(actToCreate.map(newActivity));
+    console.log("activity creation via objects complete");
+  } catch (error) {
+    throw error;
+  }
+}
+
 async function rebuildDB() {
   try {
     client.connect();
     await dropTables();
     await createTables();
+    await createInitialActivity2();
     await createInitialActivity();
+
+    console.log(
+      "------------DB Seeding Complete--------------------------------------"
+    );
   } catch (error) {
     throw error;
   }
