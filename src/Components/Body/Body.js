@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 
+import { Activity } from "./Activity";
+
 function Body(props) {
+  const { master, useMaster } = props;
+
   return (
     <div id="main">
       <div id="underConstruction">
@@ -18,11 +22,14 @@ function Body(props) {
           <li>PostgreSQL</li>
           <li>Heroku</li>
         </ul>
+        <h5>
+          This site is using contineous deployment, more features are scheduled
+          to be added soon.
+        </h5>
       </div>
-      <h5>
-        This site is using contineous deployment, more features are scheduled to
-        be added soon.
-      </h5>
+      <div id="activity">
+        <Activity master={master} useMaster={useMaster} />
+      </div>
     </div>
   );
 }

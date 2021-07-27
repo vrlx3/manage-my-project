@@ -17,7 +17,13 @@ async function createTables() {
     await client.query(`
         CREATE TABLE activities(
             id SERIAL PRIMARY KEY, 
-            activity VARCHAR(255)
+            activity VARCHAR(255),
+            users FOREIGN KEY
+        );
+        CREATE TABLE users(
+          id SERIAL PRIMARY KEY,
+          email VARCHAR(255),
+          password VARCHAR(255)
         );
         `);
   } catch (error) {
@@ -48,7 +54,11 @@ async function createInitialActivity() {
       { activity: "activity6" },
     ];
 
-    const acts = await Promise.all(actToCreate.map(newActivity));
+    const acts = await Promise.all(
+      actToCreate.map((actObj) => {
+        newActivity(actObj);
+      })
+    );
     console.log("activity creation via objects complete");
   } catch (error) {
     throw error;

@@ -3,17 +3,17 @@ const { columnNames, dollarMaker } = require("./dbHelper");
 
 async function newActivity(activity) {
   try {
-    const newAct = await client.query(
+    const { rows } = await client.query(
       `
       INSERT INTO activities(${columnNames(activity)}) 
       VALUES (${dollarMaker(activity)})
-        ${console.log(columnNames(activity))}
-      ${console.log(dollarMaker(activity))}
+      RETURNING *;
      
       `,
       Object.values(activity)
     );
-    return newAct;
+    console.log("newAct", rows);
+    return rows;
   } catch (error) {
     throw error;
   }
