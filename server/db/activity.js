@@ -12,7 +12,7 @@ async function newActivity(activity) {
       `,
       Object.values(activity)
     );
-    console.log("newAct", rows);
+    // console.log("newAct", rows);
     return rows;
   } catch (error) {
     throw error;

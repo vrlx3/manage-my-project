@@ -1,22 +1,22 @@
 const client = require("./client");
 const { columnNames, dollarMaker } = require("./dbHelper");
 
-async function register(newUserObj) {
+async function users_activities(newUserActivityObj) {
   try {
     const { rows } = await client.query(
       `
-        INSERT INTO users(${columnNames(newUserObj)}) 
-        VALUES (${dollarMaker(newUserObj)})
+        INSERT INTO users_activities(${columnNames(newUserActivityObj)}) 
+        VALUES (${dollarMaker(newUserActivityObj)})
         RETURNING *;
        
         `,
-      Object.values(newUserObj)
+      Object.values(newUserActivityObj)
     );
-    // console.log("new user", rows);
+
     return rows;
   } catch (error) {
     throw error;
   }
 }
 
-module.exports = { register };
+module.exports = { users_activities };
