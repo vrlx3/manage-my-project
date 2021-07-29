@@ -17,6 +17,7 @@ function Activity(props) {
       <button
         onClick={(ev) => {
           addActivity(master.addActivity);
+          useMaster({ ...master, addActivity: "" });
         }}
       >
         Add Activity

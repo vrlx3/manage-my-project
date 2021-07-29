@@ -1,1 +1,1 @@
-module.exports = { ...require("./activity") };
+module.exports = { ...require("./activity"), ...require("./users") };

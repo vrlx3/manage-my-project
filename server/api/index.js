@@ -1,12 +1,23 @@
 const express = require("express");
+
 const apiRouter = express.Router();
-const { newActivity } = require("../db");
+const { newActivity, register } = require("../db");
 
 // const client = require("../db/client");
 
-apiRouter.use("*", (req, res, next) => {
+apiRouter.use("*", async (req, res, next) => {
   console.log("Api Router got hit");
   next();
+});
+
+apiRouter.post("/register", async (req, res, next) => {
+  console.log(req.body);
+  const data = await register(req.body);
+  if (data) {
+    res.send("Registeration Successful");
+  } else {
+    res.send("Registration Failed");
+  }
 });
 
 apiRouter.post("/activities", async (req, res, next) => {
@@ -19,21 +30,9 @@ apiRouter.post("/activities", async (req, res, next) => {
   }
 });
 
-// apiRouter.post("/activities", async (req, res, next) => {
-//   console.log("from incoming req.body", req.body);
-
-//   try {
-//     client.connect();
-//     const response = await client.query(`
-//     INSERT INTO activities (activity) VALUES ('activity11')
-
-//     `);
-//     console.log(response);
-//     res.send("query ran").finally(() => client.end);
-//   } catch (error) {
-//     res.send("query failed");
-//     throw error;
-//   }
-// });
+apiRouter.post("/login", async (req, res, next) => {
+  console.log("Login Route got hit");
+  next();
+});
 
 module.exports = apiRouter;
