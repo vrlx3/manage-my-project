@@ -1,5 +1,11 @@
 const client = require("./client");
-const { newActivity, register, users_activities, dependencies } = require("./");
+const {
+  newActivity,
+  register,
+  users_activities,
+  dependencies,
+  updateActivity,
+} = require("./");
 
 async function dropTables() {
   try {
@@ -24,7 +30,8 @@ async function createTables() {
       password VARCHAR(255) NOT NULL,
       displayname VARCHAR(255) DEFAULT NULL,
       username VARCHAR(255) DEFAULT NULL,
-      permission INT DEFAULT 1
+      permission INT DEFAULT 1,
+      active BOOLEAN DEFAULT TRUE
     );
     
     CREATE TABLE activities (
@@ -190,6 +197,24 @@ async function createDependencies() {
   }
 }
 
+//TEST FUNCTIONS
+
+async function initialUpdateActivity() {
+  try {
+    console.log("starting initial update activity");
+    const initialActivityUpdate = {
+      activity: "updatedActivity",
+      description: "updatedDescription",
+      id: 3,
+      active: true,
+    };
+
+    const updated = await updateActivity(initialActivityUpdate);
+  } catch (error) {
+    throw error;
+  }
+}
+
 async function rebuildDB() {
   try {
     client.connect();
@@ -200,6 +225,8 @@ async function rebuildDB() {
     await createInitialActivity();
     await createInitialUsersActivities();
     await createDependencies();
+
+    await initialUpdateActivity();
 
     console.log(
       "------------DB Seeding Complete--------------------------------------"
