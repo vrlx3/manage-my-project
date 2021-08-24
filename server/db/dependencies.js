@@ -1,5 +1,5 @@
 const client = require("./client");
-const { columnNames, dollarMaker } = require("./dbHelper");
+const { columnNames, dollarMaker, updater } = require("./dbHelper");
 
 async function dependencies(dependeciesObj) {
   try {
@@ -19,4 +19,16 @@ async function dependencies(dependeciesObj) {
   }
 }
 
+// DB function to update dependencies
+async function updatePreviousActivity (updatePreviousActivityObject) {
+  try {
+    const { rows } = await client.query(`
+    UPDATE dependencies
+    SET ${updater(updatePreviousActivityObject)}
+    WHERE id = ${updatePreviousActivityObject.id}
+    `);
+  } catch (error) {
+    throw error;
+  }
+}
 module.exports = { dependencies };
